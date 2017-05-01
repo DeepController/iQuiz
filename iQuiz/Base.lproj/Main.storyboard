@@ -19,26 +19,26 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="QuizItem" rowHeight="67" id="3Vb-ME-Kg1">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="QuizItem" rowHeight="67" id="3Vb-ME-Kg1" customClass="QuizCell" customModule="iQuiz" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="67"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3Vb-ME-Kg1" id="2AO-nr-Srl">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="66.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DXW-jV-z27">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DXW-jV-z27" userLabel="title">
                                             <rect key="frame" x="84" y="0.0" width="52" height="34"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Short Sentences" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XnV-Xb-Gik">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Short Sentences" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XnV-Xb-Gik" userLabel="sentence">
                                             <rect key="frame" x="84" y="31" width="115" height="18"/>
                                             <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
                                             <color key="textColor" red="0.60000002379999995" green="0.60000002379999995" blue="0.60000002379999995" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9DS-QE-l66">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9DS-QE-l66" userLabel="Cover">
                                             <rect key="frame" x="17" y="0.0" width="57" height="57"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="57" id="G5B-0X-sBR"/>
@@ -55,6 +55,11 @@
                                         <constraint firstItem="DXW-jV-z27" firstAttribute="leading" secondItem="XnV-Xb-Gik" secondAttribute="leading" id="lPH-6R-9dT"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="quizCover" destination="9DS-QE-l66" id="x7j-9c-PXk"/>
+                                    <outlet property="subTitle" destination="XnV-Xb-Gik" id="fnS-tB-JWa"/>
+                                    <outlet property="title" destination="DXW-jV-z27" id="3RC-Vd-yMS"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -65,13 +70,16 @@
                     <navigationItem key="navigationItem" title="iQuiz" id="iPs-uZ-qC8">
                         <barButtonItem key="rightBarButtonItem" tag="20" title="Settings" id="soc-Ts-d3V">
                             <connections>
-                                <action selector="SettingPressed:" destination="XTg-hB-pUv" id="eQj-oD-cnG"/>
+                                <action selector="SettingPressed:" destination="XTg-hB-pUv" id="5Ly-nD-LPE"/>
                             </connections>
                         </barButtonItem>
                         <connections>
                             <outlet property="rightBarButtonItem" destination="soc-Ts-d3V" id="Nvm-NR-Ef0"/>
                         </connections>
                     </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="EHk-7H-scy" id="dK8-YF-B7F"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wgq-59-yDx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

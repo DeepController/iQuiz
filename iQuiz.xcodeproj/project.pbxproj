@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D1583301EB7E87600C03F81 /* QuizCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D15832F1EB7E87600C03F81 /* QuizCell.swift */; };
 		3D19E2D61EB4504A00136560 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D19E2D51EB4504A00136560 /* AppDelegate.swift */; };
 		3D19E2D81EB4504A00136560 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D19E2D71EB4504A00136560 /* TableViewController.swift */; };
 		3D19E2DB1EB4504A00136560 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3D19E2D91EB4504A00136560 /* Main.storyboard */; };
@@ -15,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3D15832F1EB7E87600C03F81 /* QuizCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QuizCell.swift; sourceTree = "<group>"; };
 		3D19E2D21EB4504A00136560 /* iQuiz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iQuiz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D19E2D51EB4504A00136560 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3D19E2D71EB4504A00136560 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
@@ -57,6 +59,7 @@
 				3D19E2D51EB4504A00136560 /* AppDelegate.swift */,
 				3D19E2D71EB4504A00136560 /* TableViewController.swift */,
 				3D19E2D91EB4504A00136560 /* Main.storyboard */,
+				3D15832F1EB7E87600C03F81 /* QuizCell.swift */,
 				3D19E2DC1EB4504A00136560 /* Assets.xcassets */,
 				3D19E2DE1EB4504A00136560 /* LaunchScreen.storyboard */,
 				3D19E2E11EB4504A00136560 /* Info.plist */,
@@ -137,6 +140,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D1583301EB7E87600C03F81 /* QuizCell.swift in Sources */,
 				3D19E2D81EB4504A00136560 /* TableViewController.swift in Sources */,
 				3D19E2D61EB4504A00136560 /* AppDelegate.swift in Sources */,
 			);
