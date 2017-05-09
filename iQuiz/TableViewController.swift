@@ -12,9 +12,10 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
 	
 	let titleData = ["Mathematics", "Marvel Super Heroes", "Science"]
 	let subTitleData = ["Mathematics", "Marvel Super Heroes", "Science"]
+	var rowNum = -1;
 	
 	// cell reuse id (cells that scroll out of view can be reused)
-	let cellReuseIdentifier = "QuizItem"
+	let cellReuseIdentifier = "Quiz"
 	
 	// don't forget to hook this up from the storyboard
 	@IBOutlet var tableView: UITableView!
@@ -47,9 +48,24 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
 	
 	// method to run when table view cell is tapped
 	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//		rowNum = indexPath.row
 		print("You tapped cell number \(indexPath.row).")
 	}
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		
+		if segue.identifier == "listToQuestion" {
+			let dest = segue.destination as! QuestionViewController
+			dest.quizIndex = self.tableView.indexPath(for: sender as! UITableViewCell)!.row
+		}
+	}
 
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(true)
+		self.navigationItem.hidesBackButton = true
+		//		self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
+	}
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
