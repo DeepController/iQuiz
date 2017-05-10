@@ -12,6 +12,7 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
 	
 	let titleData = ["Mathematics", "Marvel Super Heroes", "Science"]
 	let subTitleData = ["Mathematics", "Marvel Super Heroes", "Science"]
+	let allQuestion : quizData = quizData()
 	var rowNum = -1;
 	
 	// cell reuse id (cells that scroll out of view can be reused)
@@ -55,8 +56,10 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		
 		if segue.identifier == "listToQuestion" {
-			let dest = segue.destination as! QuestionViewController
-			dest.quizIndex = self.tableView.indexPath(for: sender as! UITableViewCell)!.row
+			let dest = segue.destination as! QuizViewController
+//			dest.quizIndex = self.tableView.indexPath(for: sender as! UITableViewCell)!.row
+			allQuestion.populate(id: self.tableView.indexPath(for: sender as! UITableViewCell)!.row)
+			dest.questionVault = allQuestion
 		}
 	}
 

@@ -15,15 +15,41 @@ struct quizItem {
 }
 
 class quizData {
-	static var dict = [String : quizItem]()
+	var arr = [quizItem]()
+	var count = -1
+	var outOfQuestion : Bool = false
 	
-	static func populate() {
-		for index in 1...arc4random_uniform(3) + 1 {
+	func populate(id : Int) {
+		count = -1
+		outOfQuestion = false
+		for index : Int in 1...Int(arc4random_uniform(3)) {
 			var item = quizItem()
 			item.question = "Question \(index)"
-			item.answer = "Answer \(index)"
 			item.choices = ["A", "B", "C", "D"]
-			dict["\(index)"] = item
+			item.answer = "A"
+//			item.answer = item.choices[Int(arc4random_uniform(4))]
+			arr.append(item)
+		}
+	}
+	
+	func getQuestion() -> quizItem? {
+		count += 1
+		if count == arr.count - 1 {
+			outOfQuestion = true
+		}
+		return arr[count]
+	}
+}
+
+class scoreData {
+	fileprivate var total : Int = 0
+	fileprivate var correct : Int = 0
+	var score : Double { get { return Double(correct) / Double(total)}}
+	
+	func updateScore(correct flag : Bool) {
+		total += 1
+		if flag {
+			correct += 1
 		}
 	}
 }

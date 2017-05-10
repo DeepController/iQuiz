@@ -8,7 +8,7 @@
 
 import UIKit
 
-class QuestionViewController: UIViewController {
+class QuestionViewController: QuizViewController {
 
 	@IBOutlet weak var content: UILabel!
 	@IBOutlet weak var choiceA: UIButton!
@@ -35,11 +35,6 @@ class QuestionViewController: UIViewController {
 		selected = sender.currentTitle!
 	}
 	
-//	@IBAction func submitChoice(_ sender: UIButton) {
-//		if selected != "" {
-//
-//		}
-//	}
 	
 	override func shouldPerformSegue(withIdentifier identifier: String?, sender: Any?) -> Bool {
 		return selected != ""
@@ -47,17 +42,18 @@ class QuestionViewController: UIViewController {
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		
-		if segue.identifier == "questionToAnswer" && selected != "" {
+		if segue.identifier == "questionToAnswer" {
 			let dest = segue.destination as! AnswerViewController
 			dest.userChoice = selected
-//			dest.quizIndex = self.tableView.indexPath(for: sender as! UITableViewCell)!.row
+			dest.questionContent = content.text!
+//			dest.correctChoice = "A"
 		}
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		quizData.populate()
-		content.text = "Quiz number \(quizIndex)"
+		super.currQuestion = super.questionVault?.getQuestion()
+		content.text = (currQuestion?.question)! + "\n(key is A)"
 	}
 	
     override func viewDidLoad() {

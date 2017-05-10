@@ -8,11 +8,14 @@
 
 import UIKit
 
-class AnswerViewController: UIViewController {
+class AnswerViewController: QuizViewController {
 	
 	var userChoice : String = ""
 	var correctChoice : String = ""
+	var questionContent : String = ""
 	@IBOutlet weak var answer: UILabel!
+	@IBOutlet weak var result: UILabel!
+	@IBOutlet weak var question: UILabel!
 	
 	@IBAction func backToList(_ sender: UIBarButtonItem) {
 		self.navigationController!.popToRootViewController(animated: true)
@@ -25,8 +28,18 @@ class AnswerViewController: UIViewController {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(true)
 		self.navigationItem.hidesBackButton = true
-		answer.text = userChoice
-//		self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
+//		correctChoice = (super.currQuestion?.answer)!
+		correctChoice = "A"
+//		questionContent = (super.currQuestion?.question)!
+		if userChoice == correctChoice {
+			result.text = "You Nailed It!!!"
+			scoreBundle.updateScore(correct: true)
+		} else {
+			result.text = "You Fool!!!"
+			scoreBundle.updateScore(correct: false)
+		}
+		answer.text = "The answer is \(correctChoice)"
+		question.text = questionContent
 	}
 	
     override func viewDidLoad() {
