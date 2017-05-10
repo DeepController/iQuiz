@@ -253,7 +253,7 @@
                                         <state key="normal" title="Next"/>
                                         <connections>
                                             <action selector="nextPressed:" destination="VuY-u7-uQi" eventType="touchUpInside" id="nFA-dv-9sw"/>
-                                            <segue destination="aX4-Wd-DH0" kind="show" id="Kdb-0Y-06A"/>
+                                            <segue destination="aX4-Wd-DH0" kind="show" identifier="answerToFinish" id="Kdb-0Y-06A"/>
                                         </connections>
                                     </button>
                                 </subviews>

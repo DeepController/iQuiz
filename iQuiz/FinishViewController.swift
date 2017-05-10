@@ -12,6 +12,7 @@ class FinishViewController: QuizViewController {
 	@IBOutlet weak var conclusion: UILabel!
 	@IBOutlet weak var score: UILabel!
 	
+	var myScore : Double = -1
 
 	@IBAction func back(_ sender: UIButton) {
 		self.navigationController!.popToRootViewController(animated: true)
@@ -23,7 +24,7 @@ class FinishViewController: QuizViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-		let currScore = super.scoreBundle.score
+		let currScore = myScore
 		score.text = String(currScore)
 		if currScore > 0.8 {
 			conclusion.text = "Awesome"

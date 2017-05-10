@@ -24,6 +24,19 @@ class AnswerViewController: QuizViewController {
 	@IBAction func nextPressed(_ sender: UIButton) {
 		
 	}
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		
+		if segue.identifier == "answerToFinish" {
+			let dest = segue.destination as! FinishViewController
+			if result.text! == "You Nailed It!!!" {
+				dest.myScore = 1.0
+			} else {
+				dest.myScore = 0.0
+			}
+			//			dest.correctChoice = "A"
+		}
+	}
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(true)
