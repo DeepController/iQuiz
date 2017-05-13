@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FinishViewController: QuizViewController {
+class FinishViewController: UIViewController {
 	@IBOutlet weak var conclusion: UILabel!
 	@IBOutlet weak var score: UILabel!
 	

@@ -253,7 +253,6 @@
                                         <state key="normal" title="Next"/>
                                         <connections>
                                             <action selector="nextPressed:" destination="VuY-u7-uQi" eventType="touchUpInside" id="nFA-dv-9sw"/>
-                                            <segue destination="aX4-Wd-DH0" kind="show" identifier="answerToFinish" id="Kdb-0Y-06A"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -284,6 +283,8 @@
                         <outlet property="answer" destination="CtV-3e-r4j" id="cfh-bK-hcf"/>
                         <outlet property="question" destination="9re-KD-57S" id="501-8A-kTN"/>
                         <outlet property="result" destination="vpK-Wv-F4a" id="nCR-Ia-if5"/>
+                        <segue destination="tDu-ar-GY5" kind="show" identifier="answerToNextQuestion" id="cwo-Q6-pJr"/>
+                        <segue destination="aX4-Wd-DH0" kind="show" identifier="answerToFinished" id="6QX-NP-dvb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lHv-Y4-QxV" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -378,4 +379,7 @@
     <resources>
         <image name="BackArrowiOS" width="57" height="21"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="cwo-Q6-pJr"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class QuestionViewController: QuizViewController {
+class QuestionViewController: UIViewController {
 
 	@IBOutlet weak var content: UILabel!
 	@IBOutlet weak var choiceA: UIButton!
@@ -18,6 +18,8 @@ class QuestionViewController: QuizViewController {
 	@IBOutlet weak var submit: UIButton!
 	
 	var quizIndex = -1;
+	var questionArray = [quizItem]()
+	var score = scoreData()
 	var selected : String = "";
 	let GREEN = UIColor(red:0.451, green:0.980, blue:0.475, alpha:1.000)
 	let BLUE = UIColor(red:0.000, green:0.478, blue:1.000, alpha:1.000)
@@ -52,8 +54,8 @@ class QuestionViewController: QuizViewController {
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		super.currQuestion = super.questionVault?.getQuestion()
-		content.text = (currQuestion?.question)! + "\n(key is A)"
+//		super.currQuestion = super.questionVault?.getQuestion()
+//		content.text = (currQuestion?.question)! + "\n(key is A)"
 	}
 	
     override func viewDidLoad() {

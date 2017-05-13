@@ -10,9 +10,8 @@ import UIKit
 
 class TableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 	
-	let titleData = ["Mathematics", "Marvel Super Heroes", "Science"]
-	let subTitleData = ["Mathematics", "Marvel Super Heroes", "Science"]
-	let allQuestion : quizData = quizData()
+	var quizCellCollection = [quizCellData]()
+	var quizSourceURL : String = "https://tednewardsandbox.site44.com/questions.json"
 	var rowNum = -1;
 	
 	// cell reuse id (cells that scroll out of view can be reused)
@@ -30,7 +29,7 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
 	
 	// number of rows in table view
 	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-		return self.titleData.count
+		return self.quizCellCollection.count
 	}
 	
 	// create a cell for each table view row
@@ -40,8 +39,8 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
 		let cell:QuizCell = self.tableView.dequeueReusableCell(withIdentifier: cellReuseIdentifier) as! QuizCell
 		
 		// set the text from the data model
-		cell.title.text = self.titleData[indexPath.row]
-		cell.subTitle.text = self.subTitleData[indexPath.row]
+		cell.title.text = self.quizCellCollection[indexPath.row].quizTitle
+		cell.subTitle.text = self.quizCellCollection[indexPath.row].quizDesc
 		cell.quizCover.image = #imageLiteral(resourceName: "setting_icon")
 		
 		return cell
@@ -56,17 +55,55 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		
 		if segue.identifier == "listToQuestion" {
-			let dest = segue.destination as! QuizViewController
+			let dest = segue.destination as! QuestionViewController
 //			dest.quizIndex = self.tableView.indexPath(for: sender as! UITableViewCell)!.row
-			allQuestion.populate(id: self.tableView.indexPath(for: sender as! UITableViewCell)!.row)
-			dest.questionVault = allQuestion
+//			allQuestion.populate(id: self.tableView.indexPath(for: sender as! UITableViewCell)!.row)
+//			dest.questionVault = allQuestion
 		}
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(true)
-		self.navigationItem.hidesBackButton = true
+//		self.navigationItem.hidesBackButton = true
 		//		self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
+		downloadJSON(from: quizSourceURL)
+		let documentsURL = try! FileManager().url(for: .documentDirectory,
+		                                          in: .userDomainMask,
+		                                          appropriateFor: nil,
+		                                          create: true)
+		let fileURL = documentsURL.appendingPathComponent("questions.json")
+		let data = try! Data(contentsOf: fileURL)
+		let JSONobject = try! JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)
+		let questions = JSONobject as? [Any]
+		for question in questions! {
+			quizCellCollection.append(quizCellData(json: question as! [String:Any])!)
+		}
+		print(quizCellCollection[0].quizTitle)
+	}
+	
+	func downloadJSON(from source : String) {
+		let requestURL: URL = URL(string: source)!
+		let sessionConfig = URLSessionConfiguration.default
+		let session = URLSession(configuration: sessionConfig)
+		let request = URLRequest(url: requestURL)
+		
+		let task = session.downloadTask(with: request) { (location, response, error) in
+			if let location = location, error == nil {
+				let locationPath = location.path
+				let documents:String = NSHomeDirectory() + "/Documents/questions.json"
+				let fileManager = FileManager.default
+				do {
+					try fileManager.moveItem(atPath: locationPath, toPath: documents)
+				} catch {
+					try! fileManager.removeItem(atPath: documents)
+					try! fileManager.moveItem(atPath: locationPath, toPath: documents)
+				}
+				
+			} else {
+				print("Failure");
+			}
+		}
+		task.resume()
 	}
 	
 	override func viewDidLoad() {

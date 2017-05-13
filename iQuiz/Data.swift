@@ -14,30 +14,56 @@ struct quizItem {
 	var answer : String = ""
 }
 
-class quizData {
-	var arr = [quizItem]()
-	var count = -1
-	var outOfQuestion : Bool = false
-	
-	func populate(id : Int) {
-		count = -1
-		outOfQuestion = false
-		for index : Int in 1...Int(arc4random_uniform(3)) {
-			var item = quizItem()
-			item.question = "Question \(index)"
-			item.choices = ["A", "B", "C", "D"]
-			item.answer = "A"
-//			item.answer = item.choices[Int(arc4random_uniform(4))]
-			arr.append(item)
-		}
+extension quizItem {
+	init?(json: [String : Any]) {
+		self.question = json["text"] as! String
+		self.answer = json["answer"] as! String
+		self.choices = json["answers"] as! [String]
 	}
-	
-	func getQuestion() -> quizItem? {
-		count += 1
-		if count == arr.count - 1 {
-			outOfQuestion = true
+}
+
+//class quizData {
+//	var arr = [quizItem]()
+//	var count = -1
+//	var outOfQuestion : Bool = false
+//	
+//	func populate(id : Int) {
+//		count = -1
+//		outOfQuestion = false
+//		for index : Int in 1...Int(arc4random_uniform(3)) {
+//			var item = quizItem()
+//			item.question = "Question \(index)"
+//			item.choices = ["A", "B", "C", "D"]
+//			item.answer = "A"
+////			item.answer = item.choices[Int(arc4random_uniform(4))]
+//			arr.append(item)
+//		}
+//	}
+//	
+//	func getQuestion() -> quizItem? {
+//		count += 1
+//		if count == arr.count - 1 {
+//			outOfQuestion = true
+//		}
+//		return arr[count]
+//	}
+//}
+
+struct quizCellData {
+	var quizTitle : String = ""
+	var quizDesc : String = ""
+	var questionArr = [quizItem]()
+}
+
+extension quizCellData {
+	init?(json: [String : Any]) {
+		self.quizTitle = json["title"] as! String
+		self.quizDesc = json["desc"] as! String
+		let arr = json["questions"] as! [Any]
+		for question in arr {
+			let dict = question as! [String:Any]
+			self.questionArr.append(quizItem.init(json: dict)!)
 		}
-		return arr[count]
 	}
 }
 

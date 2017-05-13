@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AnswerViewController: QuizViewController {
+class AnswerViewController: UIViewController {
 	
 	var userChoice : String = ""
 	var correctChoice : String = ""
@@ -45,10 +45,10 @@ class AnswerViewController: QuizViewController {
 //		questionContent = (super.currQuestion?.question)!
 		if userChoice == correctChoice {
 			result.text = "You Nailed It!!!"
-			scoreBundle.updateScore(correct: true)
+//			scoreBundle.updateScore(correct: true)
 		} else {
 			result.text = "You Fool!!!"
-			scoreBundle.updateScore(correct: false)
+//			scoreBundle.updateScore(correct: false)
 		}
 		answer.text = "The answer is \(correctChoice)"
 		question.text = questionContent
