@@ -34,7 +34,6 @@ class AnswerViewController: QuizViewController {
 			} else {
 				dest.myScore = 0.0
 			}
-			//			dest.correctChoice = "A"
 		}
 	}
 
