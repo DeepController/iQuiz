@@ -10,9 +10,10 @@ import UIKit
 
 class TableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 	
+	var sourceUpdated : Bool = true
 	var quizCellCollection = [quizCellData]()
 	var quizSourceURL : String = "https://tednewardsandbox.site44.com/questions.json"
-	var rowNum = -1;
+//	var rowNum = -1;
 	
 	// cell reuse id (cells that scroll out of view can be reused)
 	let cellReuseIdentifier = "Quiz"
@@ -21,10 +22,32 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
 	@IBOutlet var tableView: UITableView!
 	
 	@IBAction func SettingPressed(_ sender: UIBarButtonItem) {
-		let alert = UIAlertController.init(title: "Settings", message: "Settings go here", preferredStyle: .alert)
-		let action = UIAlertAction.init(title: "OK", style: .default, handler: nil)
-		alert.addAction(action)
-		self.present(alert, animated: true, completion: nil)
+		presentAlert()
+	}
+	
+	func presentAlert() {
+		let alertController = UIAlertController(title: "Settings", message: "Please enter custom quiz source", preferredStyle: .alert)
+		
+		let confirmAction = UIAlertAction(title: "Confirm", style: .default) { (_) in
+			if let field = alertController.textFields?[0] {
+				// store your data
+				self.quizSourceURL = field.text!
+				self.downloadAndUpdate()
+				self.tableView.reloadData()
+				self.sourceUpdated = true
+			}
+		}
+		
+		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (_) in }
+		
+		alertController.addTextField { (textField) in
+			textField.placeholder = "https://xxx.com/xxx.json"
+		}
+		
+		alertController.addAction(confirmAction)
+		alertController.addAction(cancelAction)
+		
+		self.present(alertController, animated: true, completion: nil)
 	}
 	
 	// number of rows in table view
@@ -47,15 +70,16 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
 	}
 	
 	// method to run when table view cell is tapped
-	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//	func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //		rowNum = indexPath.row
-		print("You tapped cell number \(indexPath.row).")
-	}
+//	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		
 		if segue.identifier == "listToQuestion" {
 			let dest = segue.destination as! QuestionViewController
+			dest.questionArray = quizCellCollection[self.tableView.indexPath(for: sender as! UITableViewCell)!.row].questionArr
+			
 //			dest.quizIndex = self.tableView.indexPath(for: sender as! UITableViewCell)!.row
 //			allQuestion.populate(id: self.tableView.indexPath(for: sender as! UITableViewCell)!.row)
 //			dest.questionVault = allQuestion
@@ -64,21 +88,26 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(true)
-//		self.navigationItem.hidesBackButton = true
-		//		self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: nil, action: nil)
-		downloadJSON(from: quizSourceURL)
+		downloadAndUpdate()
+	}
+	
+	func downloadAndUpdate() {
 		let documentsURL = try! FileManager().url(for: .documentDirectory,
 		                                          in: .userDomainMask,
 		                                          appropriateFor: nil,
 		                                          create: true)
 		let fileURL = documentsURL.appendingPathComponent("questions.json")
+		if !FileManager().fileExists(atPath: fileURL.path) || sourceUpdated {
+			downloadJSON(from: quizSourceURL)
+			sourceUpdated = false
+		}
 		let data = try! Data(contentsOf: fileURL)
 		let JSONobject = try! JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.allowFragments)
 		let questions = JSONobject as? [Any]
+		quizCellCollection.removeAll(keepingCapacity: false)
 		for question in questions! {
 			quizCellCollection.append(quizCellData(json: question as! [String:Any])!)
 		}
-		print(quizCellCollection[0].quizTitle)
 	}
 	
 	func downloadJSON(from source : String) {

@@ -11,8 +11,8 @@ import UIKit
 class AnswerViewController: UIViewController {
 	
 	var userChoice : String = ""
-	var correctChoice : String = ""
-	var questionContent : String = ""
+	var questionArray = [quizItem]()
+	var score = scoreData()
 	@IBOutlet weak var answer: UILabel!
 	@IBOutlet weak var result: UILabel!
 	@IBOutlet weak var question: UILabel!
@@ -22,36 +22,39 @@ class AnswerViewController: UIViewController {
 	}
 	
 	@IBAction func nextPressed(_ sender: UIButton) {
-		
+		questionArray = Array(questionArray.dropFirst(1))
+		if questionArray.count == 0 {
+			performSegue(withIdentifier: "answerToFinished", sender: nil)
+		} else {
+			performSegue(withIdentifier: "answerToNextQuestion", sender: nil)
+		}
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		
-		if segue.identifier == "answerToFinish" {
+		if segue.identifier == "answerToFinished" {
 			let dest = segue.destination as! FinishViewController
-			if result.text! == "You Nailed It!!!" {
-				dest.myScore = 1.0
-			} else {
-				dest.myScore = 0.0
-			}
+			dest.myScore = score
+		} else {
+			let dest = segue.destination as! QuestionViewController
+			dest.score = score
+			dest.questionArray = questionArray
 		}
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(true)
 		self.navigationItem.hidesBackButton = true
-//		correctChoice = (super.currQuestion?.answer)!
-		correctChoice = "A"
-//		questionContent = (super.currQuestion?.question)!
-		if userChoice == correctChoice {
+		let currentQuestion = questionArray[0]
+		if userChoice == currentQuestion.answer {
 			result.text = "You Nailed It!!!"
-//			scoreBundle.updateScore(correct: true)
+			score.updateScore(correct: true)
 		} else {
 			result.text = "You Fool!!!"
-//			scoreBundle.updateScore(correct: false)
+			score.updateScore(correct: false)
 		}
-		answer.text = "The answer is \(correctChoice)"
-		question.text = questionContent
+		answer.text = "The answer is \n\(currentQuestion.choices[Int(currentQuestion.answer)! - 1])"
+		question.text = currentQuestion.question
 	}
 	
     override func viewDidLoad() {

@@ -78,4 +78,12 @@ class scoreData {
 			correct += 1
 		}
 	}
+	
+	func toString() -> String {
+		return "\(correct) out of \(total)"
+	}
+	
+	func toScore() -> String {
+		return "\(round(score * 10000.0) / 100.0)%"
+	}
 }

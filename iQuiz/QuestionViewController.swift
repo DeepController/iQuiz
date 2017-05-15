@@ -17,13 +17,16 @@ class QuestionViewController: UIViewController {
 	@IBOutlet weak var choiceD: UIButton!
 	@IBOutlet weak var submit: UIButton!
 	
-	var quizIndex = -1;
+
 	var questionArray = [quizItem]()
 	var score = scoreData()
-	var selected : String = "";
+	var selected : String = ""
 	let GREEN = UIColor(red:0.451, green:0.980, blue:0.475, alpha:1.000)
 	let BLUE = UIColor(red:0.000, green:0.478, blue:1.000, alpha:1.000)
 	
+	@IBAction func backToList(_ sender: UIBarButtonItem) {
+		self.navigationController!.popToRootViewController(animated: true)
+	}
 	
 	
 	@IBAction func choicePressed(_ sender: UIButton) {
@@ -34,7 +37,7 @@ class QuestionViewController: UIViewController {
 		sender.setTitleColor(GREEN, for: .normal)
 		submit.setTitleColor(BLUE, for: .normal)
 		submit.backgroundColor = GREEN
-		selected = sender.currentTitle!
+		selected = String(describing: Int(choices.index(where: { $0 === sender })!) + 1)
 	}
 	
 	
@@ -47,15 +50,20 @@ class QuestionViewController: UIViewController {
 		if segue.identifier == "questionToAnswer" {
 			let dest = segue.destination as! AnswerViewController
 			dest.userChoice = selected
-			dest.questionContent = content.text!
+			dest.questionArray = questionArray
+			dest.score = score
 //			dest.correctChoice = "A"
 		}
 	}
 	
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-//		super.currQuestion = super.questionVault?.getQuestion()
-//		content.text = (currQuestion?.question)! + "\n(key is A)"
+		let question = questionArray[0]
+		content.text = question.question
+		let choices = [choiceA, choiceB, choiceC, choiceD]
+		for num in 0...choices.count - 1 {
+			choices[num]?.setTitle(question.choices[num], for: .normal)
+		}
 	}
 	
     override func viewDidLoad() {

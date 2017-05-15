@@ -12,7 +12,7 @@ class FinishViewController: UIViewController {
 	@IBOutlet weak var conclusion: UILabel!
 	@IBOutlet weak var score: UILabel!
 	
-	var myScore : Double = -1
+	var myScore = scoreData()
 
 	@IBAction func back(_ sender: UIButton) {
 		self.navigationController!.popToRootViewController(animated: true)
@@ -24,9 +24,8 @@ class FinishViewController: UIViewController {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-		let currScore = myScore
-		score.text = String(currScore)
-		if currScore > 0.8 {
+		score.text = "You got " + myScore.toString()
+		if myScore.score > 0.8 {
 			conclusion.text = "Awesome"
 		} else {
 			conclusion.text = "Meh..."
